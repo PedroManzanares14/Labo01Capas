@@ -156,6 +156,7 @@ public class Main {
             System.out.println("3. Ver Artistas");
             System.out.println("4. Ver Discos");
             System.out.println("5. Registrar Ventas");
+            System.out.println("6. Artista con mas ventas");
             System.out.println("0. Salir");
             System.out.print("Seleccione una opción: ");
             opcion = scanner.nextInt();
@@ -243,11 +244,41 @@ public class Main {
                     disco.registrarVentas(cantidad);
                     System.out.println("¡Ventas registradas exitosamente!");
                 }
+                case 6 -> mostrarArtistaConMasVentas();
+
 
                 case 0 -> System.out.println("Saliendo del programa...");
+
                 default -> System.out.println("Opción inválida, intente nuevamente.");
             }
         } while (opcion != 0);
 
+
     }
+    public static void mostrarArtistaConMasVentas() {
+        List<Artista> artistas = Artista.getArtistasRegistrados();
+
+        if (artistas.isEmpty()) {
+            System.out.println("No hay artistas registrados.");
+            return;
+        }
+
+        Artista artistaConMasVentas = null;
+        int maxVentas = 0;
+
+        // Iterar sobre la lista de artistas registrados y encontrar el de más ventas
+        for (Artista artista : artistas) {
+            if (artista.getDiscosVendidos() > maxVentas) {
+                maxVentas = artista.getDiscosVendidos();
+                artistaConMasVentas = artista;
+            }
+        }
+
+        // Mostrar el resultado
+        System.out.println("El artista con más discos vendidos es:");
+        System.out.println("Nombre: " + artistaConMasVentas.getNombre());
+        System.out.println("Discos Vendidos: " + maxVentas);
+    }
+
+
 }
