@@ -1,5 +1,6 @@
 package org.example;
 import java.util.*;
+import java.util.stream.Collectors;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -157,6 +158,7 @@ public class Main {
             System.out.println("4. Ver Discos");
             System.out.println("5. Registrar Ventas");
             System.out.println("6. Artista con mas ventas");
+            System.out.println("7. Mostrar discos por ventas");
             System.out.println("0. Salir");
             System.out.print("Seleccione una opción: ");
             opcion = scanner.nextInt();
@@ -246,6 +248,7 @@ public class Main {
                 }
                 case 6 -> mostrarArtistaConMasVentas();
 
+                case 7 -> mostrarDiscosPorVentas();
 
                 case 0 -> System.out.println("Saliendo del programa...");
 
@@ -278,6 +281,32 @@ public class Main {
         System.out.println("El artista con más discos vendidos es:");
         System.out.println("Nombre: " + artistaConMasVentas.getNombre());
         System.out.println("Discos Vendidos: " + maxVentas);
+    }
+
+    public static void mostrarDiscosPorVentas() {
+        List<Disco> discos = Disco.getDiscosRegistrados();
+        Scanner scanner = new Scanner(System.in);
+
+        if (discos.isEmpty()) {
+            System.out.println("No hay discos registrados.");
+            return;
+        }
+
+        // Solicitar la cantidad de ventas por la que filtrar
+        System.out.println("Inserta la cantidad de ventas por filtrar");
+        int cantidad = scanner.nextInt();
+
+        // Filtrar los discos con ventas mayores o iguales a las indicadas
+        List <Disco> masVendidos = discos.stream()
+                .filter(disco -> disco.getVentasTotales() >= cantidad)
+                .collect(Collectors.toList());
+
+        if (masVendidos.isEmpty()) {
+            System.out.println("Ningún disco ha superado las "+ cantidad +" ventas.");
+            return;
+        }
+        System.out.println("Discos que han superado las " + cantidad + " ventas: ");
+        masVendidos.forEach(disco -> System.out.println(disco.toString()));
     }
 
 
